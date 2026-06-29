@@ -1,9 +1,17 @@
 <?php
 // admin/db_connect.php
-$servername = "localhost";
-$username = "root";
-$password = ""; 
-$dbname = "nexis_db";
+if ($_SERVER['HTTP_HOST'] == 'localhost' || $_SERVER['HTTP_HOST'] == '127.0.0.1') {
+    // Pengaturan Localhost (XAMPP)
+    $username = "root";
+    $password = ""; 
+    $dbname = "nexis_db";
+} else {
+    // Pengaturan Online (Rumahweb cPanel)
+    $username = "movh6621_nesa";
+    $password = "Nexa123#"; 
+    $dbname = "movh6621_nesa";
+}
+$servername = "localhost"; // Selalu localhost di cPanel
 
 // Use error suppression to avoid fatal crashes when XAMPP is off
 $conn = @new mysqli($servername, $username, $password, $dbname);
