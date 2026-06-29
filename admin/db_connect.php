@@ -1,23 +1,12 @@
 <?php
 // admin/db_connect.php
-
-// Prioritize environment variables for Vercel/TiDB Cloud, fallback to XAMPP default
-$servername = getenv('DB_HOST') ?: "localhost";
-$username = getenv('DB_USER') ?: "root";
-$password = getenv('DB_PASS') ?: ""; 
-$dbname = getenv('DB_NAME') ?: "nexis_db";
-$port = getenv('DB_PORT') ?: 3306;
+$servername = "localhost";
+$username = "root";
+$password = ""; 
+$dbname = "nexis_db";
 
 // Use error suppression to avoid fatal crashes when XAMPP is off
-$conn = mysqli_init();
-if (getenv('DB_HOST')) {
-    // If TiDB Cloud (or other hosts) require SSL
-    $conn->ssl_set(NULL, NULL, NULL, NULL, NULL);
-    @$conn->real_connect($servername, $username, $password, $dbname, $port, NULL, MYSQLI_CLIENT_SSL);
-} else {
-    // Localhost XAMPP
-    @$conn->real_connect($servername, $username, $password, $dbname, $port);
-}
+$conn = @new mysqli($servername, $username, $password, $dbname);
 
 $db_connected = true;
 if ($conn->connect_error) {

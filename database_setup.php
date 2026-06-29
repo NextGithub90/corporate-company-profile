@@ -3,21 +3,12 @@
 // Run this file in your browser (e.g. http://localhost/corporate-company-profile/database_setup.php)
 // Or via terminal: php database_setup.php
 
-$servername = getenv('DB_HOST') ?: "localhost";
-$username = getenv('DB_USER') ?: "root";
-$password = getenv('DB_PASS') ?: ""; 
-$dbname_env = getenv('DB_NAME') ?: "nexis_db";
-$port = getenv('DB_PORT') ?: 3306;
+$servername = "localhost";
+$username = "root";
+$password = ""; // Default XAMPP password is empty
 
 // 1. Connect to MySQL Server (Without specific database yet)
-$conn = mysqli_init();
-if (getenv('DB_HOST')) {
-    // TiDB Serverless requires SSL
-    $conn->ssl_set(NULL, NULL, NULL, NULL, NULL);
-    $conn->real_connect($servername, $username, $password, "", $port, NULL, MYSQLI_CLIENT_SSL);
-} else {
-    $conn->real_connect($servername, $username, $password, "", $port);
-}
+$conn = new mysqli($servername, $username, $password);
 
 // Check connection
 if ($conn->connect_error) {
@@ -27,15 +18,15 @@ if ($conn->connect_error) {
 echo "<b>Connected to MySQL server successfully.</b><br><br>";
 
 // 2. Create the Database
-$sql = "CREATE DATABASE IF NOT EXISTS `$dbname_env`";
+$sql = "CREATE DATABASE IF NOT EXISTS nexis_db";
 if ($conn->query($sql) === TRUE) {
-    echo "Database '$dbname_env' created or already exists.<br>";
+    echo "Database 'nexis_db' created or already exists.<br>";
 } else {
     die("Error creating database: " . $conn->error);
 }
 
 // 3. Connect to the newly created Database
-$conn->select_db($dbname_env);
+$conn->select_db("nexis_db");
 
 // 4. Create `admin_users` table
 $sql = "CREATE TABLE IF NOT EXISTS admin_users (
